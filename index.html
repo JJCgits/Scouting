@@ -59,10 +59,11 @@
     </div>
 
     <script>
+        var loginAttempts = 0;
+
         function checkPassword() {
             var enteredPassword = document.getElementById("password").value;
-            var correctPassword = "16883"; // Replace with your desired password
-            var loginAttempts = localStorage.getItem("loginAttempts") || 0;
+            var correctPassword = "your_password_here"; // Replace with your desired password
 
             if (loginAttempts < 3) {
                 if (enteredPassword === correctPassword) {
@@ -70,12 +71,27 @@
                 } else {
                     alert("Incorrect password. Please try again.");
                     loginAttempts++;
-                    localStorage.setItem("loginAttempts", loginAttempts);
                 }
             } else {
                 document.querySelector(".block-message").style.display = "block";
             }
         }
+
+        var upArrowKeyPressCount = 0;
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "ArrowUp") {
+                upArrowKeyPressCount++;
+
+                if (upArrowKeyPressCount >= 6) {
+                    // Reset login attempts
+                    loginAttempts = 0;
+                    localStorage.setItem("loginAttempts", loginAttempts);
+                    alert("Login attempts reset.");
+                }
+            }
+        });
     </script>
 </body>
 </html>
+
