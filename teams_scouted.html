@@ -63,5 +63,14 @@
         </p>
         <iframe src="https://www.apispreadsheets.com/table/LypM9jvV3BReQzfa/" frameborder="0"></iframe>
     </div>
+    <script>
+        const isLoggedIn = localStorage.getItem('firstLogin');
+
+if (!isLoggedIn || isLoggedIn !== 'done') { 
+    // Redirect to the login page if not logged in
+    window.location.href = 'index.html';
+}
+
+    </script>
 </body>
 </html>
