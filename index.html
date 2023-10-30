@@ -39,6 +39,12 @@
         button:hover {
             background: linear-gradient(to bottom, #297FB8 5%, #3498db 100%);
         }
+
+        .block-message {
+            color: red;
+            font-weight: bold;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -49,17 +55,25 @@
             <input type="password" id="password" name="password" required>
             <button type="button" onclick="checkPassword()">Submit</button>
         </form>
+        <p class="block-message">Access blocked after 3 failed attempts.</p>
     </div>
 
     <script>
         function checkPassword() {
             var enteredPassword = document.getElementById("password").value;
             var correctPassword = "16883"; // Replace with your desired password
+            var loginAttempts = localStorage.getItem("loginAttempts") || 0;
 
-            if (enteredPassword === correctPassword) {
-                window.location.href = "Scouting.html"; // Redirect to the protected page
+            if (loginAttempts < 3) {
+                if (enteredPassword === correctPassword) {
+                    window.location.href = "your_protected_page.html"; // Redirect to the protected page
+                } else {
+                    alert("Incorrect password. Please try again.");
+                    loginAttempts++;
+                    localStorage.setItem("loginAttempts", loginAttempts);
+                }
             } else {
-                alert("Incorrect password. Please try again.");
+                document.querySelector(".block-message").style.display = "block";
             }
         }
     </script>
