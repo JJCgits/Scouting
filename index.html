@@ -45,9 +45,56 @@
             font-weight: bold;
             display: none;
         }
+
+        /* Style for the circular login button */
+        .login-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
     </style>
 </head>
 <body>
+    <!-- Circular login button -->
+    <div class="login-button" onclick="showLoginPopup()">🔒</div>
+
+    <!-- Login form popup -->
+    <div class="login-popup" id="loginPopup">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="userpassword">Password:</label>
+            <input type="password" id="userpassword" name="userpassword" required>
+            <button type="button" onclick="login()">Log In</button>
+            <button type="button" onclick="hideLoginPopup()">Close</button>
+        </form>
+    </div>
+
     <h1>Password Required</h1>
     <div class="container">
         <form id="passwordForm">
@@ -59,8 +106,7 @@
     </div>
 
     <script>
-        // Initialize loginAttempts from localStorage or default to 0
-        var loginAttempts = parseInt(localStorage.getItem("loginAttempts")) || 0;
+        var loginAttempts = 0;
 
         function checkPassword() {
             var enteredPassword = document.getElementById("password").value;
@@ -68,6 +114,9 @@
 
             if (loginAttempts < 3) {
                 if (enteredPassword === correctPassword) {
+                    if (localStorage.getItem("firstLogin") === null) {
+                        localStorage.setItem("firstLogin", "done");
+                    }
                     window.location.href = "Scouting.html"; // Redirect to the protected page
                 } else {
                     alert("Incorrect password. Please try again.");
@@ -81,20 +130,44 @@
             localStorage.setItem("loginAttempts", loginAttempts);
         }
 
-        var upArrowKeyPressCount = 0;
+        function login() {
+            var enteredUsername = document.getElementById("username").value;
+            var enteredUserPassword = document.getElementById("userpassword").value;
+            var correctUsername = "dev"; // Replace with your username
+            var correctUserPassword = "13906167"; // Replace with your password
 
-        document.addEventListener("keydown", function (event) {
-            if (event.key === "Escape") {
-                upArrowKeyPressCount++;
-
-                if (upArrowKeyPressCount >= 6) {
-                    // Reset login attempts
-                    loginAttempts = 0;
-                    localStorage.setItem("loginAttempts", loginAttempts);
-                    alert("Login attempts reset.");
+            if (enteredUsername === correctUsername && enteredUserPassword === correctUserPassword) {
+                if (localStorage.getItem("firstLogin") === null) {
+                    localStorage.setItem("firstLogin", "done");
                 }
+                // Save login credentials in localStorage
+                localStorage.setItem("username", enteredUsername);
+                localStorage.setItem("userpassword", enteredUserPassword);
+                window.location.href = "Scouting.html"; // Redirect to the protected page
+            } else {
+                alert("Incorrect username or password. Please try again.");
             }
-        });
+        }
+
+        // Initialize loginAttempts from localStorage or default to 0
+        loginAttempts = parseInt(localStorage.getItem("loginAttempts")) || 0;
+
+        // Fill the login form with saved credentials if available
+        document.getElementById("username").value = localStorage.getItem("username") || "";
+        document.getElementById("userpassword").value = localStorage.getItem("userpassword") || "";
+
+        function showLoginPopup() {
+            document.getElementById("loginPopup").style.display = "block";
+        }
+
+        function hideLoginPopup() {
+            document.getElementById("loginPopup").style.display = "none";
+        }
+
+        // If it's the first login, redirect to the protected page
+        if (localStorage.getItem("firstLogin") === "done") {
+            window.location.href = "Scouting.html";
+        }
     </script>
 </body>
 </html>
