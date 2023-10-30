@@ -1,48 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Save Web Form Data to Spreadsheets</title>
-    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <title>Password Protection</title>
     <style>
         body {
-            background: radial-gradient(circle, #000 10%, transparent 10%),
-                        radial-gradient(circle, #000 10%, transparent 10%);
-            background-size: 30px 30px;
-            background-position: 0 0, 15px 15px;
-            background-color: black;
-            color: white;
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
+            background-color: #f5f5f5; /* Light gray background */
+            font-family: "Arial", sans-serif;
+            text-align: center;
+            padding: 20px;
         }
 
         .container {
-            max-width: 600px;
-            margin: 0 auto;
+            background-color: #fff; /* White background for content */
+            border: 1px solid #ccc;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.7);
             border-radius: 10px;
-            position: relative;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
         }
 
-        label {
-            display: block;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-
-        input {
+        input[type="password"] {
             width: 100%;
             padding: 10px;
-            margin-top: 5px;
-            border: 1px solid white;
+            margin-top: 20px;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-        }
-
-        input:focus {
-            background: rgba(255, 255, 255, 0.6);
         }
 
         button {
@@ -58,87 +39,29 @@
         button:hover {
             background: linear-gradient(to bottom, #297FB8 5%, #3498db 100%);
         }
-
-        .cube {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            background-color: transparent;
-            border: 1px solid #3498db;
-            animation: spin 5s infinite linear;
-        }
-
-        .cube.left {
-            top: 50%;
-            left: -30px;
-        }
-
-        .cube.right {
-            top: 50%;
-            right: -30px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .link-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: linear-gradient(to bottom, #3498db 5%, #297FB8 100%);
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            text-shadow: 1px 1px 3px #000;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-        }
     </style>
-    <script>
-        function SubForm() {
-            $.ajax({
-                url: "https://api.apispreadsheets.com/data/LypM9jvV3BReQzfa/",
-                type: "post",
-                data: $("#myForm").serializeArray(),
-                success: function () {
-                    alert("Form Data Submitted :)");
-                },
-                error: function () {
-                    alert("There was an error :(");
-                }
-            });
-        }
-    </script>
 </head>
 <body>
-    <a href="teams_scouted.html" class="link-button">Teams Scouted</a>
+    <h1>Password Required</h1>
     <div class="container">
-        <form id="myForm">
-            <label>Team Number</label>
-            <input name="Team Number" />
-            <label>Team Name</label>
-            <input name="Team Name" />
-            <label>Total Auton Points</label>
-            <input name="Total Auton Points" />
-            <label>Pixels Scored in Auton</label>
-            <input name="Pixels Scored in Auton" />
-            <label>Has Camera</label>
-            <input name="Has Camera" />
-            <label>Total TeleOp Points</label>
-            <input name="Total TeleOp Points" />
-            <label>Pixels Scored in TeleOp</label>
-            <input name="Pixels Scored in TeleOp" />
-            <label>Stack?</label>
-            <input name="Stack?" />
-            <label>Can go for all three levels</label>
-            <input name="Can go for all three levels" />
+        <form id="passwordForm">
+            <label for="password">Please enter the password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="button" onclick="checkPassword()">Submit</button>
         </form>
-        <button onclick="SubForm()">Submit</button>
     </div>
-    <div class="cube left"></div>
-    <div class="cube right"></div>
+
+    <script>
+        function checkPassword() {
+            var enteredPassword = document.getElementById("password").value;
+            var correctPassword = "16883"; // Replace with your desired password
+
+            if (enteredPassword === correctPassword) {
+                window.location.href = "Scouting.html"; // Redirect to the protected page
+            } else {
+                alert("Incorrect password. Please try again.");
+            }
+        }
+    </script>
 </body>
 </html>
-
