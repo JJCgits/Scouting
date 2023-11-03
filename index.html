@@ -105,12 +105,12 @@
         <p class="block-message">Access blocked after 3 failed attempts.</p>
     </div>
 
-    <script>
+    <script src="">
         var loginAttempts = 0;
 
         function checkPassword() {
             var enteredPassword = document.getElementById("password").value;
-            var correctPassword = "16883"; // Replace with your desired password
+            var correctPassword = "PasswordCheck"; // Replace with your desired password
 
             if (loginAttempts < 3) {
                 if (enteredPassword === correctPassword) {
